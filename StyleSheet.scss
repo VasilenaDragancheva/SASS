@@ -1,0 +1,185 @@
+﻿@mixin linear-gradient-background ($color1,$color2) {
+    background: linear-gradient($color1,$color2);
+    background-repeat: no-repeat;
+}
+
+@mixin radial-gradient-background ($direction, $color1,$color2) {
+    background: linear-gradient($direction,$color1,$color2);
+    background-repeat: no-repeat;
+}
+
+
+@mixin common-box-model($width,$height,$margin-top,$margin-bottom) {
+    width: $width;
+    height: $height;
+    background-color: $white;
+    margin: $margin-top auto $margin-bottom;
+    border: 3px double $grey;
+}
+
+@mixin article-box-model($width,$height,$margin-top,$margin-bottom) {
+    width: $width;
+    height: $height;
+    background-color: $white;
+    margin: $margin-top auto $margin-bottom;
+    border: 1px solid $grey;
+}
+
+@mixin nested-headers {
+    margin: 0 auto;
+    border: none;
+    height: 30px;
+}
+
+@mixin a-style {
+    text-decoration: none;
+    color: $grey;
+}
+
+$grey: #808080;
+$white: #fff;
+$colors: #3D0F3D, #0707B1, #0F3D0F, #F5F506,#ED980E,#CE0606;
+
+// General stylex
+body {
+    @include linear-gradient-background($grey,$white);
+    color: $grey;
+    text-align: center;
+
+    #wrapper {
+        @include common-box-model(80%,100%,0,0);
+
+        header {
+            @include common-box-model(80%,120px,15px,15px);
+
+            h1 {
+                margin-bottom: 0;
+            }
+
+            nav {
+
+                li {
+                    display: inline-block;
+                    @include common-box-model(80px,20px,0,0);
+                    margin-right: 40px;
+                    list-style-image: none;
+
+                    &:hover {
+                        @include linear-gradient-background($grey,$white);
+                        border: none;
+                        -moz-box-sizing: border-box;
+                        -webkit-box-sizing: border-box;
+                        box-sizing: border-box;
+                        border-left: 1px solid $white;
+                        border-right: 1px solid $white;
+                    }
+
+                    a {
+                        @include a-style();
+
+                        &:hover {
+                            margin: 0 auto;
+                            display: block;
+                            width: 76px;
+                            height: 20px;
+                            @include linear-gradient-background($grey,$white);
+                            border-left: 1px solid $white;
+                            border-right: 1px solid $white;
+                            border-bottom: 1px solid $grey;
+                            color: $white;
+                        }
+                    }
+                }
+            }
+        }
+
+        section {
+            @include common-box-model(80%,680px,0,35px);
+
+            header {
+                @include nested-headers();
+                text-decoration: underline;
+            }
+
+            article {
+                @include article-box-model(80%,180px,0,35px);
+
+                header {
+                    text-decoration: none;
+                    font-size: 10px;
+                }
+
+                div.innerContainer {
+                    display: inline-block;
+                    width: 90%;
+                    height: 140px;
+                    margin: 0 auto;
+
+                    div {
+                        margin-right: -5px;
+                        display: inline-block;
+                        width: 66px;
+                        height: 100px;
+                        border-radius: 15px;
+                    }
+                }
+            }
+
+
+            &.radial {
+                height: 250px;
+
+                article > .innerContainer {
+                    margin: 30px auto;
+                }
+            }
+        }
+
+        footer {
+            @include common-box-model(80%,140px,15px,15px);
+
+            h1 {
+                margin-bottom: 0;
+            }
+
+            ul {
+                padding-left:0;
+                li {
+                    list-style: none;
+
+                    a {
+                        @include a-style();
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+@for $i from 1 through 6 {
+    .linear > article:nth-child(2) > div:nth-child(2) > div:nth-child(#{$i}) {
+        background: linear-gradient(to bottom, nth($colors,$i),$white);
+    }
+}
+
+@for $i from 1 through 6 {
+    .linear > article:nth-child(3) > div:nth-child(2) div:nth-child(#{$i}) {
+        background: linear-gradient(to right, nth($colors,$i),$white);
+    }
+}
+
+
+@for $i from 1 through 6 {
+    .linear > article:nth-child(4) > div:nth-child(2) div:nth-child(#{$i}) {
+        background: linear-gradient(to bottom right, nth($colors,$i),$white);
+    }
+}
+
+@for $i from 1 through 6 {
+    .radial article div div:nth-child(#{$i}) {
+        background: radial-gradient(nth($colors,$i),$white);
+    }
+}
